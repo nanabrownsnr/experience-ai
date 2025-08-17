@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "experience-ai"
-version = "0.3.1"
+version = "0.3.2"
 authors = [
     {name = "nanabrown", email = "nanabrownsnr@gmail.com"},
 ]
