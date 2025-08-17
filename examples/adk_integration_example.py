@@ -17,7 +17,12 @@ from google.adk.tools.mcp_tool.mcp_session_manager import (
     SseConnectionParams
 )
 from mcp import StdioServerParameters
-from experience_ai import EvolvingPrompt, LocalStorageAdapter, GeminiAdapter
+from experience_ai import (
+    EvolvingPrompt, 
+    LocalStorageAdapter, 
+    GeminiAdapter,
+    AutoInteractionClassifier
+)
 import google.generativeai as genai
 import os
 
@@ -33,6 +38,9 @@ class EvolvingADKAgent:
         self.setup_evolving_prompt()
         self.setup_mcp_toolsets()
         self.create_agent()
+        
+        # Setup intelligent interaction classifier with LLM support
+        self.classifier = AutoInteractionClassifier(llm_adapter=self.llm_adapter)
         
     def setup_environment(self):
         """Setup API keys and environment variables."""
@@ -176,15 +184,27 @@ Remember: You are more helpful when you actively use the tools available to you.
             # Extract response text (adjust based on ADK response format)
             response_text = str(response) if response else "No response generated"
             
-            # For now, we'll assume successful interaction
-            # In a real implementation, you'd want to analyze the response quality
+            # Classify the interaction using the intelligent classifier (v0.3.1)
+            classification = self.classifier.classify_interaction(
+                user_message=message,
+                agent_response=response_text,
+                llm_adapter=self.llm_adapter
+            )
+            
+            # Record with outcome and metadata from classifier
             self.record_interaction(
                 conversation=f"User: {message}\nAgent: {response_text}",
-                outcome="helpful_response",  # Default to successful
+                outcome=classification.outcome,
                 metadata={
                     "session_id": session_id,
                     "tools_available": len(self.mcp_toolsets),
-                    "response_length": len(response_text)
+                    "response_length": len(response_text),
+                    "classification": {
+                        "outcome": classification.outcome,
+                        "confidence": classification.confidence,
+                        "reasoning": classification.reasoning,
+                        **classification.metadata,
+                    },
                 }
             )
             

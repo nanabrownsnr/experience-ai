@@ -289,6 +289,32 @@ llm_adapter = MyCustomAdapter(my_client)
 prompt_manager = EvolvingPrompt(base_prompt, storage, llm_adapter)
 ```
 
+## FastAPI Integration
+
+A minimal HTTP API so you can embed ExperienceAI into an existing app. A full example is provided at examples/fastapi_integration.py.
+
+Run:
+- pip install fastapi uvicorn python-dotenv
+- Set one LLM provider env var (choose one):
+  - export OPENAI_API_KEY={{OPENAI_API_KEY}}
+  - or export GEMINI_API_KEY={{GEMINI_API_KEY}}
+- Start the server:
+  - uvicorn examples.fastapi_integration:app --host 0.0.0.0 --port 8000 --reload
+
+Endpoints:
+- GET /health — status and active LLM provider
+- GET /prompt — current evolved prompt + stats
+- GET /stats — learning statistics
+- POST /record — record an interaction and refresh prompt
+- POST /clear — clear learning history
+- POST /chat — chat with the assistant; records interaction using AutoInteractionClassifier
+
+Storage path:
+- Set EA_API_STORAGE to choose where interactions are saved (JSON file)
+  - export EA_API_STORAGE=/var/data/experience-ai/api_interactions.json
+
+See docs/fastapi.md for full details, example requests, and customization tips.
+
 ## Advanced Usage
 
 ### Custom Success Outcomes

@@ -9,7 +9,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="experience-ai",
-    version="0.3.1",
+    version="0.3.2",
     author="nana brown",  # Update with your name
     author_email="nanabrownsnr@gmail.com",  # Update with your email
     description="Build AI system prompts that evolve through user interactions with intelligent LLM-based message classification and comprehensive preference learning.",
