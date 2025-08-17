@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "experience-ai"
+version = "0.3.1"
+authors = [
+    {name = "nanabrown", email = "nanabrownsnr@gmail.com"},
+]
+description = "Build AI system prompts that evolve through user interactions with intelligent LLM-based message classification and comprehensive preference learning"
+readme = "README.md"
+license = {file = "LICENSE"}
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+dependencies = [
+    # No required dependencies - LLM clients are optional
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0",
+    "pytest-cov>=2.10",
+    "black>=21.0",
+    "flake8>=3.8",
+    "mypy>=0.800",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/nanabrownsnr/experience-ai"
+"Bug Tracker" = "https://github.com/nanabrownsnr/experience-ai/issues"
+"Documentation" = "https://github.com/nanabrownsnr/experience-ai#readme"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["experience_ai*"]
+exclude = ["tests*"]
